@@ -1,16 +1,41 @@
 import { useState } from "react";
 import "./App.css";
 import axios from "axios";
+import instance from "./api/api";
 
 function App() {
   const [name, setName] = useState("");
   const [password, setPass] = useState("");
 
-  async function registerUser(event) {
-    event.preventDefault();
-    await axios
-      .get("http://localhost:5000/api/register")
-      .then((res) => console.log(res));
+  // async function registerUser(event) {
+  //   event.preventDefault();
+  //   const response = await instance
+  //     .post("/api/register", {
+  //       name,
+  //       password,
+  //     })
+  //     .then((res) => console.log(res))
+  //     .catch((error) => console.log("Error: ", error));
+
+  //   const d = await response;
+  //   console.log(d);
+  // }
+
+  async function registerUser(e) {
+    e.preventDefault();
+    const response = await fetch("http://localhost:5000/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+    console.log(data);
   }
 
   return (
