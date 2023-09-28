@@ -7,36 +7,37 @@ function App() {
   const [name, setName] = useState("");
   const [password, setPass] = useState("");
 
-  // async function registerUser(event) {
-  //   event.preventDefault();
-  //   const response = await instance
-  //     .post("/api/register", {
-  //       name,
-  //       password,
-  //     })
-  //     .then((res) => console.log(res))
-  //     .catch((error) => console.log("Error: ", error));
-
-  //   const d = await response;
-  //   console.log(d);
-  // }
-
   async function registerUser(e) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+
+    try {
+      const response = await instance.post("/api/register", {
         name,
         password,
-      }),
-    });
+      });
 
-    const data = await response.json();
-    console.log(data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
+
+  // async function registerUser(e) {
+  //   e.preventDefault();
+  //   const response = await fetch("http://localhost:5000/api/register", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       name,
+  //       password,
+  //     }),
+  //   });
+
+  //   const data = await response.json();
+  //   console.log(data);
+  // }
 
   return (
     <>
@@ -44,6 +45,7 @@ function App() {
         <h1> Write here</h1>
         <form onSubmit={registerUser}>
           <input
+            value={name}
             type="text"
             placeholder="Username"
             onChange={(e) => {
@@ -52,6 +54,7 @@ function App() {
           />
           <br />
           <input
+            value={password}
             type="password"
             placeholder="Password"
             onChange={(e) => {
