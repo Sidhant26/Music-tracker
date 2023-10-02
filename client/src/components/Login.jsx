@@ -1,8 +1,11 @@
 import { useState } from "react";
+import instance from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [name, setName] = useState("");
   const [password, setPass] = useState("");
+  const navigate = useNavigate();
 
   async function loginUser(e) {
     e.preventDefault();
@@ -13,6 +16,13 @@ function Login() {
       });
 
       console.log(response.data);
+      if (response.data.user) {
+        localStorage.setItem("token", response.data.user);
+        alert("Login successful");
+        navigate("/home");
+      } else {
+        alert("Login failed");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -33,7 +43,7 @@ function Login() {
           />
           <br />
           <input
-            // value={password}
+            value={password}
             type="password"
             placeholder="Password"
             onChange={(e) => {

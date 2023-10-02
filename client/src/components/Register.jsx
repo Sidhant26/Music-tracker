@@ -1,7 +1,9 @@
 import { useState } from "react";
 import instance from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [password, setPass] = useState("");
 
@@ -14,6 +16,9 @@ function Register() {
       });
 
       console.log(response.data);
+      if (response.data.status === "ok") {
+        navigate("/login");
+      }
     } catch (error) {
       console.error(error);
     }
